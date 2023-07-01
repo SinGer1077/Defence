@@ -13,6 +13,8 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField]
     private float _damage;
 
+    private Fire _heroFire;
+
     private Vector3 _startPosition;
     private Vector3 _targetPosition;
 
@@ -22,7 +24,7 @@ public class BaseProjectile : MonoBehaviour
     private bool _reachTarget;
 
     private void Start()
-    {
+    {    
         _reachTarget = false;
 
         _startPosition = transform.position;
@@ -52,20 +54,37 @@ public class BaseProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        switch (other.tag)
         {
-            EnemyHP enemy = other.GetComponent<EnemyHP>();
-            enemy.SetDamage(_damage);
-        }
+            case "Enemy":
+                EnemyHP enemy = other.GetComponent<EnemyHP>();
+                enemy.SetDamage(_damage);
+                break;
 
-        if (other.tag != "Player")
-        {
-            DestroyProjectile();
-        }
+            case "Rune":
+                if (_heroFire != null)
+                {
+                    RuneInfo rune = other.GetComponentInParent<RuneInfo>();
+                    _heroFire.ChangeProjectile(rune.Projectile, rune.WorkTime);
+                    rune.Hitted();
+                }
+                break;
+
+            default:
+                DestroyProjectile();
+                break;
+
+        }       
+
     }
 
     private void DestroyProjectile()
     {
         Destroy(gameObject);
+    }
+
+    public void SetFireComponent(Fire comp)
+    {
+        _heroFire = comp;
     }
 }

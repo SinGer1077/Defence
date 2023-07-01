@@ -6,6 +6,7 @@ public class Fire : MonoBehaviour
 {
     [SerializeField]
     private GameObject _currentProjectile;
+    private GameObject _defaultProjectile;
 
     [SerializeField]
     private Transform[] _muzzleTransforms;
@@ -25,12 +26,17 @@ public class Fire : MonoBehaviour
 
     private bool _readyToShot;
 
+    private void Start()
+    {
+        _defaultProjectile = _currentProjectile;
+    }
+
     private void Update()
     {
         if (Input.GetKey(KeyCode.E))
-        {            
+        {
             Shot();
-        }        
+        }
     }
 
     private void FixedUpdate()
@@ -55,7 +61,8 @@ public class Fire : MonoBehaviour
         {
             _source.Play();
             UpdateMuzzleNumber();
-            Instantiate(_currentProjectile, _muzzleTransforms[_currentMuzzle].position, transform.rotation, _parentProjectile);
+            GameObject projectile = Instantiate(_currentProjectile, _muzzleTransforms[_currentMuzzle].position, transform.rotation, _parentProjectile);
+            projectile.GetComponent<BaseProjectile>().SetFireComponent(this);
 
             _readyToShot = false;
         }
@@ -68,5 +75,17 @@ public class Fire : MonoBehaviour
             _currentMuzzle = -1;
         }
         _currentMuzzle += 1;
+    }
+
+    public void ChangeProjectile(GameObject newPrefab, float time)
+    {
+        _currentProjectile = newPrefab;
+        StartCoroutine(ToDefaultProjectileCoroutine(time));
+    }
+
+    private IEnumerator ToDefaultProjectileCoroutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _currentProjectile = _defaultProjectile;
     }
 }
