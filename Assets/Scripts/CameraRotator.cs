@@ -22,7 +22,7 @@ public class CameraRotator : MonoBehaviour
     private float _cameraPitch;
     private float _cameraYaw;
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.DownArrow))
         {
