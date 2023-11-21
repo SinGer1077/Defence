@@ -9,6 +9,10 @@ public class RuneInfo : MonoBehaviour
     public GameObject Projectile => _thisProjectile;
 
     [SerializeField]
+    private RuneEnum _runeType;
+    public RuneEnum RuneTupe => _runeType;
+
+    [SerializeField]
     private float _workTime;
     public float WorkTime => _workTime;
 

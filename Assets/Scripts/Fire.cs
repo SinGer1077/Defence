@@ -26,6 +26,8 @@ public class Fire : MonoBehaviour
 
     private bool _readyToShot;
 
+    private List<RuneInfo> _currentRuneList = new List<RuneInfo>();
+
     private void Start()
     {
         _defaultProjectile = _currentProjectile;
@@ -79,8 +81,18 @@ public class Fire : MonoBehaviour
 
     public void ChangeProjectile(GameObject newPrefab, float time)
     {
-        _currentProjectile = newPrefab;
-        StartCoroutine(ToDefaultProjectileCoroutine(time));
+        //_currentProjectile = newPrefab;
+        //StartCoroutine(ToDefaultProjectileCoroutine(time));
+    }
+
+    public void SetRune(RuneInfo rune)
+    {
+        //_currentProjectile = rune.Projectile;
+        //if (!_currentRuneList.Contains(rune))
+        //{
+        //    _currentRuneList.Add(rune) //мюдн днаюбкърэ ме псм хмтн, нм фе деярпнхряъ
+        //}
+        //StartCoroutine(ToDefaultProjectileCoroutine(rune.WorkTime));
     }
 
     private IEnumerator ToDefaultProjectileCoroutine(float time)
