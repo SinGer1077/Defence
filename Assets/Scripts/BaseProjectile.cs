@@ -13,6 +13,9 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField]
     private float _damage;
 
+    [SerializeField]
+    private ParticleSystem _waterSplash;
+
     private Fire _heroFire;
 
     private Vector3 _startPosition;
@@ -68,6 +71,11 @@ public class BaseProjectile : MonoBehaviour
                     _heroFire.ChangeProjectile(rune.Projectile, rune.WorkTime);
                     rune.Hitted();
                 }
+                break;
+
+            case "Water":
+                Instantiate(_waterSplash, transform.position, Quaternion.identity);
+                DestroyProjectile();
                 break;
 
             default:
