@@ -68,12 +68,12 @@ public class EnemiesSpawner : MonoBehaviour
                 _currentTiming = Random.Range(_waveRandomTimers[_currentWave].x, _waveRandomTimers[_currentWave].y);
                 _timer += Time.fixedDeltaTime;
                 Debug.Log(_currentTiming);
-                _timerText.text = "Враг будет через: " + (int)_currentTiming;
+                _timerText.text = "Enemy is coming by: " + (int)_currentTiming;
             }
             else
             {
                 _timer += Time.fixedDeltaTime;
-                _timerText.text = "Враг будет через: " + (int)(_currentTiming - _timer);
+                _timerText.text = "Enemy is coming by: " + (int)(_currentTiming - _timer);
                 if (_timer >= _currentTiming)
                 {
                     _timer = 0;
@@ -81,7 +81,7 @@ public class EnemiesSpawner : MonoBehaviour
                     for (int i = 0; i < enemiesCount; i++)
                     {
                         SpawnEnemy(Random.Range(0, _enemiesSpawners.Length));
-                        _timerText.text = "Враг будет через: 0";
+                        _timerText.text = "Enemy is coming by: 0";
                     }
                 }
             }
@@ -94,10 +94,10 @@ public class EnemiesSpawner : MonoBehaviour
             {
                 if (_spawnedEnemies / (_currentWave + 1) > _enemiesPerWave)
                 {
-                    Debug.Log("Пауза");
+                    Debug.Log("Pause");
                     _readyToSpawn = false;
                     _currentWave++;
-                    _timerText.text = "Следующая волна через: 7.5 сек!";
+                    _timerText.text = "The next wave come in: 7.5 sec!";
                     //_currentTiming = 0;
                     //_timer = Time.fixedDeltaTime;
                     Invoke("SetReadyToSpawn", 7.5f);

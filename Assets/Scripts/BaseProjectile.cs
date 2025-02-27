@@ -15,6 +15,11 @@ public class BaseProjectile : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem _waterSplash;
+    [SerializeField]
+    private GameObject _waterDecal;
+
+    [SerializeField]
+    private ParticleSystem _shipDamageParticle;
 
     private Fire _heroFire;
 
@@ -62,6 +67,8 @@ public class BaseProjectile : MonoBehaviour
             case "Enemy":
                 EnemyHP enemy = other.GetComponent<EnemyHP>();
                 enemy.SetDamage(_damage);
+                Instantiate(_shipDamageParticle, transform.position, Quaternion.LookRotation(Vector3.back, Vector3.up));
+                DestroyProjectile();
                 break;
 
             case "Rune":
@@ -71,10 +78,12 @@ public class BaseProjectile : MonoBehaviour
                     _heroFire.ChangeProjectile(rune.Projectile, rune.WorkTime);
                     rune.Hitted();
                 }
+                DestroyProjectile();
                 break;
 
             case "Water":
                 Instantiate(_waterSplash, transform.position, Quaternion.identity);
+                Instantiate(_waterDecal, transform.position, Quaternion.identity);
                 DestroyProjectile();
                 break;
 

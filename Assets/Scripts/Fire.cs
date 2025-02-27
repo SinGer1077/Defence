@@ -20,6 +20,9 @@ public class Fire : MonoBehaviour
     [SerializeField]
     private AudioSource _source;
 
+    [SerializeField]
+    private ParticleSystem _shotImpact;
+
     private int _currentMuzzle = -1;
 
     private float _timer;
@@ -65,7 +68,10 @@ public class Fire : MonoBehaviour
             UpdateMuzzleNumber();
             GameObject projectile = Instantiate(_currentProjectile, _muzzleTransforms[_currentMuzzle].position, transform.rotation, _parentProjectile);
             projectile.GetComponent<BaseProjectile>().SetFireComponent(this);
-
+            Instantiate(_shotImpact, _muzzleTransforms[_currentMuzzle].position, Quaternion.identity);
+            var anim = _muzzleTransforms[_currentMuzzle].parent.GetComponent<Animation>();
+            if (!anim.isPlaying)
+                anim.Play();
             _readyToShot = false;
         }
     }
